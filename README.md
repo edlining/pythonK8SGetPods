@@ -13,7 +13,6 @@ kind: ServiceAccount
 metadata:
   name: pod-reader-sa
   namespace: default
-Apply this file:
 
 
 kubectl apply -f service-account.yaml
