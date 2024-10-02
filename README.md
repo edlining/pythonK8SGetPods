@@ -5,6 +5,7 @@ Prerequisites
 Kubernetes cluster up and running
 kubectl installed and configured to interact with the cluster
 Steps
+
 1. Create the Service Account
 Create a service account with the name pod-reader-sa in the default namespace.
 
