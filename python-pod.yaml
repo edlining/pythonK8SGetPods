@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-reader-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-reader
+  template:
+    metadata:
+      labels:
+        app: pod-reader
+    spec:
+      serviceAccountName: pod-reader-sa  # Use the created service account
+      containers:
+      - name: pod-reader
+        image: python:3.9-slim  # Use the python image
+        command: ["/bin/sh", "-c"]  # Use shell to run multiple commands
+        args:
+        - |
+          pip install kubernetes &&
+          python -c "
+          from kubernetes import client, config
+          config.load_incluster_config()
+          v1 = client.CoreV1Api()
+          pods = v1.list_pod_for_all_namespaces(watch=False)
+          for pod in pods.items:
+              print(f'Namespace: {pod.metadata.namespace}, Pod Name: {pod.metadata.name}')"
