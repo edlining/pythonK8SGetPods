@@ -5,12 +5,9 @@ Prerequisites
 Kubernetes cluster up and running
 kubectl installed and configured to interact with the cluster
 Steps
-
 1. Create the Service Account
 Create a service account with the name pod-reader-sa in the default namespace.
 
-yaml
-Copy code
 # service-account.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -19,14 +16,10 @@ metadata:
   namespace: default
 Apply this file:
 
-bash
-Copy code
 kubectl apply -f service-account.yaml
 2. Create RBAC Permissions
 Grant the service account permission to list and get pods by creating a ClusterRole and binding it to the service account.
 
-yaml
-Copy code
 # rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -52,14 +45,10 @@ subjects:
   namespace: default
 Apply this file:
 
-bash
-Copy code
 kubectl apply -f rbac.yaml
 3. Create the Deployment
 Create a deployment that uses the service account pod-reader-sa. This deployment will install the kubernetes Python client using pip, then run a Python script to list all pods in the cluster.
 
-yaml
-Copy code
 # python-pod.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -92,19 +81,13 @@ spec:
               print(f'Namespace: {pod.metadata.namespace}, Pod Name: {pod.metadata.name}')"
 Apply this file:
 
-bash
-Copy code
 kubectl apply -f python-pod.yaml
 4. Verify
 Check the logs of the deployment to ensure that the pods are being listed:
 
-bash
-Copy code
 kubectl logs deployment/pod-reader-deployment
 You should see the output listing all pods in the cluster:
 
-yaml
-Copy code
 Namespace: default, Pod Name: pod-reader-deployment-xxxxxx
 Namespace: kube-system, Pod Name: coredns-xxxxxx
 ...
