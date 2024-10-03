@@ -7,6 +7,7 @@ kubectl installed and configured to interact with the cluster
 Steps
 1. Create the Service Account
 Create a service account with the name pod-reader-sa in the default namespace.
+
 # service-account.yaml
 apiVersion: v1
 kind: ServiceAccount
